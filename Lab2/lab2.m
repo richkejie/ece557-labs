@@ -18,3 +18,36 @@ end
 %% 4
 % Using the gains K1, K2 youUve just obtained,
 % test the eigenvalues of A + BK and check they are at {−5, −5}
+
+%% 5
+% This function takes as input the matrix A of system (2)
+% and a row vector p containing desired eigenvalues,
+% and it outputs observer gains L1, L2
+function [L1,L2] = observer_design(A,p)
+    % function code here
+end
+
+%% 6
+% test your function by finding values of L1, L2
+% assigning the eigenvalues of A − LC to be at {−10, −10}
+
+%% 7
+% using the gains L1, L2 that you%ve just obtained,
+% test the eigenvalues of A − LC and check they are at {−10, −10}
+
+%% 8
+% This function takes as input the matrices A, B, C of system (2)
+% and row vectors p_feedback and p_observer
+% containing desired eigenvalues for A + BK and A − LC, respectively,
+% and it outputs controller matrices (Actrl, Bctrl, Cctrl, Dctrl)
+% must call the functions state_feedback_design and observer_design
+function [Actrl,Bctrl,Cctrl,Dctrl] = output_feedback_controller(A,B,C,p_feedback,p_observer)
+    % function code here
+end
+
+%% 9
+% using this new function,
+% find the matrices of an output feedback controller
+% with p_feedback = [−2 − 2] and p_observer = [−20 − 20]
+
+
