@@ -3,29 +3,29 @@
 % with numerical values for the physical parameters
 % given in the table presented at the end of Section 1
 
-%% 2
-% This function takes as input the matrices A and B of system (2)
-% and a row vector p containing desired eigenvalues,
-% and it outputs gains K1, K2 for the state feedback controller
-function [K1 K2] = state_feedback_design(A,B,p)
-    % function code here
-end
+alpha_1 = 1.7265;
+alpha_2 = 10.5;
+M = 0.8211;
+
+A = [0 1; 0 -alpha_2/M];
+B = [0; alpha_1/M];
+C = [1 0];
+
+
 
 %% 3
 % test your function by finding values of K1, K2
 % assigning the eigenvalues of A + BK to be at {−5, −5}
+A_test = [0 1; 0 15];
+B_test = [0; -5];
+p_test = [-5; -5];
+[K1, K2] = state_feedback_design(A_test, B_test, p_test)
 
 %% 4
 % Using the gains K1, K2 youUve just obtained,
 % test the eigenvalues of A + BK and check they are at {−5, −5}
+eig(A_test+B_test*[K1 K2])
 
-%% 5
-% This function takes as input the matrix A of system (2)
-% and a row vector p containing desired eigenvalues,
-% and it outputs observer gains L1, L2
-function [L1,L2] = observer_design(A,p)
-    % function code here
-end
 
 %% 6
 % test your function by finding values of L1, L2
@@ -34,6 +34,35 @@ end
 %% 7
 % using the gains L1, L2 that you%ve just obtained,
 % test the eigenvalues of A − LC and check they are at {−10, −10}
+
+
+
+%% 9
+% using this new function,
+% find the matrices of an output feedback controller
+% with p_feedback = [−2 − 2] and p_observer = [−20 − 20]
+
+%% 2
+% This function takes as input the matrices A and B of system (2)
+% and a row vector p containing desired eigenvalues,
+% and it outputs gains K1, K2 for the state feedback controller
+function [K1, K2] = state_feedback_design(A,B,p)
+    % function code here
+    a22 = A(2,2);
+    b2 = B(2);
+    p1 = p(1);
+    p2 = p(2);
+    K1 = -(p1*p2)/b2;
+    K2 = (-a22+p1+p2)/b2;
+end
+
+%% 5
+% This function takes as input the matrix A of system (2)
+% and a row vector p containing desired eigenvalues,
+% and it outputs observer gains L1, L2
+function [L1,L2] = observer_design(A,p)
+    % function code here
+end
 
 %% 8
 % This function takes as input the matrices A, B, C of system (2)
@@ -44,10 +73,3 @@ end
 function [Actrl,Bctrl,Cctrl,Dctrl] = output_feedback_controller(A,B,C,p_feedback,p_observer)
     % function code here
 end
-
-%% 9
-% using this new function,
-% find the matrices of an output feedback controller
-% with p_feedback = [−2 − 2] and p_observer = [−20 − 20]
-
-
