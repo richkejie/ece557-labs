@@ -30,11 +30,14 @@ eig(A_test+B_test*[K1 K2])
 %% 6
 % test your function by finding values of L1, L2
 % assigning the eigenvalues of A − LC to be at {−10, −10}
+A_test = [0 1; 0 1];
+p_test = [-10; -10];
+[L1, L2] = observer_design(A_test, p_test)
 
 %% 7
 % using the gains L1, L2 that you%ve just obtained,
 % test the eigenvalues of A − LC and check they are at {−10, −10}
-
+eig(A_test - [L1; L2]*C)
 
 
 %% 9
@@ -62,6 +65,11 @@ end
 % and it outputs observer gains L1, L2
 function [L1,L2] = observer_design(A,p)
     % function code here
+    a22 = A(2,2);
+    p1 = p(1);
+    p2 = p(2);
+    L1 = a22 - (p1+p2);
+    L2 = L1*a22 + p1*p2;
 end
 
 %% 8
@@ -72,4 +80,5 @@ end
 % must call the functions state_feedback_design and observer_design
 function [Actrl,Bctrl,Cctrl,Dctrl] = output_feedback_controller(A,B,C,p_feedback,p_observer)
     % function code here
+    
 end
