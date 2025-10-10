@@ -16,28 +16,23 @@ C = [1 0];
 %% 3
 % test your function by finding values of K1, K2
 % assigning the eigenvalues of A + BK to be at {−5, −5}
-A_test = [0 1; 0 15];
-B_test = [0; -5];
-p_test = [-5; -5];
-[K1, K2] = state_feedback_design(A_test, B_test, p_test)
+[K1, K2] = state_feedback_design(A, B, [-5 -5])
 
 %% 4
 % Using the gains K1, K2 youUve just obtained,
 % test the eigenvalues of A + BK and check they are at {−5, −5}
-eig(A_test+B_test*[K1 K2])
+eig(A+B*K)
 
 
 %% 6
 % test your function by finding values of L1, L2
 % assigning the eigenvalues of A − LC to be at {−10, −10}
-A_test = [0 1; 0 1];
-p_test = [-10; -10];
-[L1, L2] = observer_design(A_test, p_test)
+[L1, L2] = observer_design(A, [-10 -10])
 
 %% 7
 % using the gains L1, L2 that you%ve just obtained,
 % test the eigenvalues of A − LC and check they are at {−10, −10}
-eig(A_test - [L1; L2]*C)
+eig(A-L*C)
 
 
 %% 9
