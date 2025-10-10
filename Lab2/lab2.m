@@ -44,6 +44,7 @@ eig(A_test - [L1; L2]*C)
 % using this new function,
 % find the matrices of an output feedback controller
 % with p_feedback = [−2 − 2] and p_observer = [−20 − 20]
+[Actrl, Bctrl, Cctrl, Dctrl] = output_feedback_controller(A,B,C,[-2 -2], [-20 -20])
 
 %% 2
 % This function takes as input the matrices A and B of system (2)
@@ -80,5 +81,13 @@ end
 % must call the functions state_feedback_design and observer_design
 function [Actrl,Bctrl,Cctrl,Dctrl] = output_feedback_controller(A,B,C,p_feedback,p_observer)
     % function code here
-    
+    [K1, K2] = state_feedback_design(A, B, p_feedback);
+    K = [K1 K2];
+    [L1, L2] = observer_design(A, p_observer);
+    L = [L1; L2];
+
+    Actrl = A + B*K - L*C;
+    Bctrl = [L -B*K];
+    Cctrl = K;
+    Dctrl = [0 -K];
 end
