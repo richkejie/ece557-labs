@@ -17,6 +17,7 @@ C = [1 0];
 % test your function by finding values of K1, K2
 % assigning the eigenvalues of A + BK to be at {−5, −5}
 [K1, K2] = state_feedback_design(A, B, [-5 -5])
+K = [K1 K2];
 
 %% 4
 % Using the gains K1, K2 youUve just obtained,
@@ -28,6 +29,7 @@ eig(A+B*K)
 % test your function by finding values of L1, L2
 % assigning the eigenvalues of A − LC to be at {−10, −10}
 [L1, L2] = observer_design(A, [-10 -10])
+L = [L1; L2];
 
 %% 7
 % using the gains L1, L2 that you%ve just obtained,
