@@ -1,3 +1,6 @@
+%% ECE557 Lab 3 Preparation - Nov 3 2025
+%% PRA01 Group 5 - Darrian Shue, Richard Wu, Terrence Zhang
+
 %% 4.2
 %% constants
 M = 1.1911;
@@ -36,21 +39,22 @@ B = double(subs(J2, [x;u], [x_bar;u_bar]))
 
 %% controllability
 ctrl_AB = ctrb(A,B)
+r = rank(ctrl_AB) % full rank=4 means controllable
 rankA = rank(A)
 rankB = rank(B)
 
 %% 4.3
 %% get K_place user acker function from the given eigenvalues in p
 p = [-5,-5,-5,-5];
-K_place = acker(A,B,p)
+K_acker = acker(A,B,p) % -14.5282 -17.7043 47.0341 8.3938
 % check that the resulting K_place gives back the desired eigenvalues
-eig(A+B*K_place)
+eig(A - B*K_acker) % poles are approximately at -5
 
 %% use place function
 % perturn eigenvalues slightly
 p = [-5.01, -4.99, -5.02, -4.98];
 K_place = place(A,B,p)
-eig(A+B*K_place)
+eig(A - B*K_place)
 
 %% 4.4
 %% gain K_LQR1
@@ -69,5 +73,45 @@ K_LQR2 = lqr(A,B,Q,R)
 
 %% compare eigenvalues
 % the eigenvalues are very close
-eig(A+B*K_LQR1)
-eig(A+B*K_LQR2)
+eig(A - B*K_LQR1)
+eig(A - B*K_LQR2)
+
+%% 4.5
+% initial condition
+x0=2*[0; 0; pi/24; 0];
+
+% Run simulation for each K calculation
+% negative from convention change
+K = -K_place 
+out_place=sim('lab3_linear.slx',10)
+
+K = -K_lqr1;
+out_LQR1 = sim('lab3_linear.slx', 10)
+
+K = -K_lqr2;
+out_LQR2 = sim('lab3_linear.slx', 10)
+
+% Output code from lab document
+figure(1)
+subplot(311)
+title('Comparison of the three controllers with linearized plant')
+subtitle('Preparation')
+ylabel('z')
+hold on
+plot(out_place.z)
+plot(out_LQR1.z)
+plot(out_LQR2.z)
+subplot(312)
+ylabel('theta')
+hold on
+plot(out_place.theta)
+plot(out_LQR1.theta)
+plot(out_LQR2.theta)
+subplot(313)
+ylabel('u')
+hold on
+plot(out_place.u)
+plot(out_LQR1.u)
+plot(out_LQR2.u)
+legend('pole assignment','LQR1','LQR2','Location','NorthEast')
+
