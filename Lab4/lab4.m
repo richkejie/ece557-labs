@@ -44,21 +44,28 @@ C = [1 0 0 0; 0 0 1 0];
 % using the commands rank and obsv check that the linearization is
 % observable
 ctrl_AB = ctrb(A,B)
-r = rank(ctrl_AB) % full rank=4 means controllable
-rankA = rank(A)
-rankB = rank(B)
+r_ctrl = rank(ctrl_AB) % full rank=4 means controllable
 
+obs_AC = obsv(A,C)
+% Check observability rank
+r_obs = rank(obs_AC) % full rank=4 means observable
+
+
+%% 4.2 continued: get K and L
 % design feedback gain K
 %p_K = [-5, -5, -5, -5];
 p_K = [-5.01, -4.99, -5.02, -4.98];
 K = -place(A,B,p_K)
+eig(A+B*K)
 
 % design observer gain L
 %p_L = [-10, -10, -10, -10];
 p_L = [-10.01, -9.99, -10.02, -9.98];
 % duality says (A' - C'*L')' = A - L*C
 L = place(A',C',p_L)'
+eig(A-L*C)
 
+%% 4.2 continued
 % create matrices
 Actrl = A + B*K - L*C
 Bctrl = [L, -B*K]
