@@ -142,14 +142,48 @@ legend('State Feedback','Output Feedback','Location','NorthEast')
 p_K = [-8.01, -7.99, -8.02, -7.98]; % this value for poles is good, w/ T_s<1
 % p_K = [-10.01, -9.99, -10.02, -9.98]; system unstable w/ poles at -10
 K = -place(A,B,p_K)
+% everything else same as above
+p_L = [-40.01, -39.99, -40.02, -39.98];
+% duality says (A' - C'*L')' = A - L*C
+L = place(A',C',p_L)'
+% create matrices
+Actrl = A + B*K - L*C
+Bctrl = [L, -B*K]
+Cctrl = K
+Dctrl = [zeros(1,2), -K]
 
+% Run simulation
+out=sim('lab4_prep.slx',30)
+
+% plot
+figure(3)
+subplot(311)
+title('State and output feedback controller')
+subtitle('Preparation')
+ylabel('z')
+hold on
+plot(out.z)
+legend('State Feedback','Output Feedback','Desired Position','Location','NorthEast')
+subplot(312)
+ylabel('theta')
+hold on
+plot(out.theta)
+legend('State Feedback','Output Feedback','Location','NorthEast')
+subplot(313)
+ylabel('u')
+hold on
+plot(out.u)
+legend('State Feedback','Output Feedback','Location','NorthEast')
+
+
+%%
 % LQR tuning not working well, just use pole assignment for poles at -8
 % % gain K_LQR1
-% q_1 = 2;
-% q_2 = 1;
-% Q = [q_1 0 0 0; 0 0 0 0; 0 0 q_2 0; 0 0 0 0];
-% R = 0.2;
-% K = -lqr(A,B,Q,R)
+q_1 = 50;
+q_2 = 0.01;
+Q = [q_1 0 0 0; 0 0 0 0; 0 0 q_2 0; 0 0 0 0];
+R = 0.01;
+K = -lqr(A,B,Q,R)
 % % gain K_LQR2
 % q_1 = 0.1;
 % q_2 = 1;
@@ -171,7 +205,7 @@ Dctrl = [zeros(1,2), -K]
 out=sim('lab4_prep.slx',30)
 
 % plot
-figure(3)
+figure(4)
 subplot(311)
 title('State and output feedback controller')
 subtitle('Preparation')
