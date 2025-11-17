@@ -80,61 +80,61 @@ Ulim = 5.875
 
 %% NOTE, uncomment this to run the original sim w/ L poles at -10
 % Run simulation for A-LC at -10
-% out=sim('lab4_prep.slx',30)
-% 
-% % plot
-% figure(1)
-% subplot(311)
-% title('State and output feedback controller')
-% subtitle('Preparation')
-% ylabel('z')
-% hold on
-% plot(out.z)
-% legend('State Feedback','Output Feedback','Desired Position','Location','NorthEast')
-% subplot(312)
-% ylabel('theta')
-% hold on
-% plot(out.theta)
-% legend('State Feedback','Output Feedback','Location','NorthEast')
-% subplot(313)
-% ylabel('u')
-% hold on
-% plot(out.u)
-% legend('State Feedback','Output Feedback','Location','NorthEast')
+out=sim('lab4_prep.slx',30)
+
+% plot
+figure(1)
+subplot(311)
+title('State and output feedback controller')
+subtitle('Preparation')
+ylabel('z')
+hold on
+plot(out.z)
+legend('State Feedback','Output Feedback','Desired Position','Location','NorthEast')
+subplot(312)
+ylabel('theta')
+hold on
+plot(out.theta)
+legend('State Feedback','Output Feedback','Location','NorthEast')
+subplot(313)
+ylabel('u')
+hold on
+plot(out.u)
+legend('State Feedback','Output Feedback','Location','NorthEast')
 
 %% NOTE, uncomment this to run the original sim w/ L poles at -40
 % %% change L to assign eigenvalues of A-LC at around -40
-% p_L = [-40.01, -39.99, -40.02, -39.98];
-% % duality says (A' - C'*L')' = A - L*C
-% L = place(A',C',p_L)'
-% % create matrices
-% Actrl = A + B*K - L*C
-% Bctrl = [L, -B*K]
-% Cctrl = K
-% Dctrl = [zeros(1,2), -K]
-% 
-% % Run simulation
-% out=sim('lab4_prep.slx',30)
-% 
-% % plot
-% figure(1)
-% subplot(311)
-% title('State and output feedback controller')
-% subtitle('Preparation')
-% ylabel('z')
-% hold on
-% plot(out.z)
-% legend('State Feedback','Output Feedback','Desired Position','Location','NorthEast')
-% subplot(312)
-% ylabel('theta')
-% hold on
-% plot(out.theta)
-% legend('State Feedback','Output Feedback','Location','NorthEast')
-% subplot(313)
-% ylabel('u')
-% hold on
-% plot(out.u)
-% legend('State Feedback','Output Feedback','Location','NorthEast')
+p_L = [-40.01, -39.99, -40.02, -39.98];
+% duality says (A' - C'*L')' = A - L*C
+L = place(A',C',p_L)'
+% create matrices
+Actrl = A + B*K - L*C
+Bctrl = [L, -B*K]
+Cctrl = K
+Dctrl = [zeros(1,2), -K]
+
+% Run simulation
+out=sim('lab4_prep.slx',30)
+
+% plot
+figure(2)
+subplot(311)
+title('State and output feedback controller')
+subtitle('Preparation')
+ylabel('z')
+hold on
+plot(out.z)
+legend('State Feedback','Output Feedback','Desired Position','Location','NorthEast')
+subplot(312)
+ylabel('theta')
+hold on
+plot(out.theta)
+legend('State Feedback','Output Feedback','Location','NorthEast')
+subplot(313)
+ylabel('u')
+hold on
+plot(out.u)
+legend('State Feedback','Output Feedback','Location','NorthEast')
 
 %% tune K without changing L, where eig(A-LC) are at -40. Use poles at -8 for K
 % tune K using pole assignment
@@ -171,7 +171,7 @@ Dctrl = [zeros(1,2), -K]
 out=sim('lab4_prep.slx',30)
 
 % plot
-figure(1)
+figure(3)
 subplot(311)
 title('State and output feedback controller')
 subtitle('Preparation')
